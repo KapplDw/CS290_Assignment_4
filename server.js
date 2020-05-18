@@ -8,26 +8,44 @@
 var http = require('http');
 
 const PORT = process.env.PORT || 3000;
+const fs = require('fs');
+
+var index = fs.readFileSync('./public/index.html', 'utf8');
+var style = fs.readFileSync('./public/style.css', 'utf8');
+var javascript = fs.readFileSync('./public/index.js', 'utf8');
 
 var server = http.createServer(function (req, res) {
-    console.log("== Got a request");
-    console.log("  -- HTTP method:", req.method);
-    console.log("  -- Resource:", req.url);
-    console.log("  -- Headers:", req.headers);
-  
-    res.writeHead(200, {
+  if (req.url == "/index.html" || req.url == "/"){
+    res.writeHead(200, { 
       "Content-Type": "text/html"
-    });
-    res.write("<html>");
-    res.write("<body>");
-    res.write("<h1>Hello World!</h1>");
-    res.write("<p>You requested this page: " + req.url + "</p>");
-    res.write("</body>");
-    res.write("</html>");
+    })
+    res.write(index);
     res.end();
+  }
+  else if (req.url == "/style.css"){
+    res.writeHead(200, { 
+      "Content-Type": "text/css"
+    })
+    res.write(style);
+    res.end();
+  }
+  else if(req.url == "/index.js"){
+    res.writeHead(200, { 
+      "Content-Type": "application/javascript"
+    })
+    res.write(javascript);
+    res.end();
+  }
+
+  
+
+
 });
 
 
 server.listen(PORT, function () {
-    console.log("== Server is listening on port " + PORT);
+
+  console.log("== Server is listening on port " + PORT);
+
+
 });
