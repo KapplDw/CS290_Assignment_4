@@ -13,6 +13,7 @@ const fs = require('fs');
 var index = fs.readFileSync('./public/index.html', 'utf8');
 var style = fs.readFileSync('./public/style.css', 'utf8');
 var javascript = fs.readFileSync('./public/index.js', 'utf8');
+var fourZeroFour = fs.readFileSync('./public/404.html', 'utf8');
 
 var server = http.createServer(function (req, res) {
   if (req.url == "/index.html" || req.url == "/"){
@@ -34,6 +35,20 @@ var server = http.createServer(function (req, res) {
       "Content-Type": "application/javascript"
     })
     res.write(javascript);
+    res.end();
+  }
+  else if(req.url == "/404.html"){
+    res.writeHead(200, { 
+      "Content-Type": "text/html"
+    })
+    res.write(fourZeroFour);
+    res.end();
+  }
+  else {
+    res.writeHead(404, { 
+      "Content-Type": "text/html"
+    })
+    res.write(fourZeroFour);
     res.end();
   }
 
